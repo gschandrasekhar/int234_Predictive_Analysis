@@ -68,3 +68,34 @@ ggplot(data = cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
        x = "Actual",
        y = "Predicted") +
   theme_minimal()
+
+
+knn_accuracy <- sum(testdf$stress_level == iknn) / length(testdf$stress_level)
+
+
+nb_accuracy <- sum(testdf$stress_level == ipre) / length(testdf$stress_level)
+
+
+dt_accuracy <- sum(testdf$stress_level == idpre) / length(testdf$stress_level)
+
+
+svm_accuracy <- sum(testdf$stress_level == pre) / length(testdf$stress_level)
+
+
+accuracy_df <- data.frame(
+  Model = c("KNN", "Naive Bayes", "Decision Tree", "SVM"),
+  Accuracy = c(knn_accuracy, nb_accuracy, dt_accuracy, svm_accuracy)
+)
+
+print(accuracy_df)
+library(ggplot2)
+
+ggplot(data = accuracy_df, aes(x = Model, y = Accuracy, fill = Model)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = round(Accuracy, 2)), vjust = -0.5, size = 5) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Accuracy Comparison of Machine Learning Models",
+       x = "Model",
+       y = "Accuracy") +
+  theme_minimal()
+
